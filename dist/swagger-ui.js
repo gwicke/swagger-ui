@@ -30967,7 +30967,7 @@ Emitter.prototype.hasListeners = function(event){
  * TODO: combatible error handling?
  */
 
-module.exports = function(arr, fn, initial){  
+module.exports = function(arr, fn, initial){
   var idx = 0;
   var len = arr.length;
   var curr = arguments.length == 3
@@ -30977,7 +30977,7 @@ module.exports = function(arr, fn, initial){
   while (idx < len) {
     curr = fn.call(null, curr, arr[idx], ++idx, arr);
   }
-  
+
   return curr;
 };
 },{}]},{},[1])(1)
@@ -32041,7 +32041,8 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     this.model.type = type;
     this.model.paramType = this.model.in || this.model.paramType;
-    this.model.isBody = this.model.paramType === 'body' || this.model.in === 'body';
+    this.model.isBody = this.model.paramType === 'body' || this.model.in === 'body'
+        || this.model['x-textarea'];
     this.model.isFile = type && type.toLowerCase() === 'file';
 
     // Allow for default === false
