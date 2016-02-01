@@ -605,9 +605,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     var contentType = null;
     if (headers) {
       contentType = headers['Content-Type'] || headers['content-type'];
-      if (contentType) {
-        contentType = contentType.split(';')[0].trim();
-      }
+      //if (contentType) {
+      //  contentType = contentType.split(';')[0].trim();
+      //}
     }
     $('.response_body', $(this.el)).removeClass('json');
     $('.response_body', $(this.el)).removeClass('xml');
@@ -624,7 +624,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       pre = $('<pre class="json" />').append(code);
 
     // JSON
-    } else if (contentType === 'application/json' || /\+json$/.test(contentType)) {
+    } else if (/^application\/json\b/.test(contentType) || /\+json$/.test(contentType)) {
       var json = null;
       try {
         json = JSON.stringify(JSON.parse(content), null, '  ');
@@ -635,12 +635,12 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       pre = $('<pre class="json" />').append(code);
 
     // XML
-    } else if (contentType === 'application/xml' || /\+xml$/.test(contentType)) {
+    } else if (/^application\/xml\b/.test(contentType) || /\+xml$/.test(contentType)) {
       code = $('<code />').text(this.formatXml(content));
       pre = $('<pre class="xml" />').append(code);
 
     // HTML
-    } else if (contentType === 'text/html') {
+    } else if (/^text\/html/.test(contentType)) {
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
 
