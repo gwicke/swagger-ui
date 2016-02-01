@@ -19,10 +19,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
-    
+
     if (opts.swaggerOptions) {
       this.model.defaultRendering = opts.swaggerOptions.defaultModelRendering;
-      
+
       if (opts.swaggerOptions.showRequestHeaders) {
         this.model.showRequestHeaders = true;
       }
@@ -168,9 +168,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       for (key in successResponse) {
         value = successResponse[key];
         this.model.successCode = key;
+        this.model.successDescription = value.description;
+        this.model.headers = this.parseResponseHeaders(value.headers);
         if (typeof value === 'object' && typeof value.createJSONSample === 'function') {
-          this.model.successDescription = value.description;
-          this.model.headers = this.parseResponseHeaders(value.headers);
           signatureModel = {
             sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
             isParam: false,
@@ -275,7 +275,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       // This is required for JsonEditor to display the root properly
       if(!param.schema.type){
         param.schema.type = 'object';
-      } 
+      }
       // This is the title that will be used by JsonEditor for the root
       // Since we already display the parameter's name in the Parameter column
       // We set this to space, we can't set it to null or space otherwise JsonEditor
@@ -283,7 +283,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       if(!param.schema.title){
         param.schema.title = ' ';
       }
-    } 
+    }
 
     var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
